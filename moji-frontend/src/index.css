@@ -1,0 +1,37 @@
+/* Tailwind 디렉티브 — 빌드 시 이 3줄이 실제 CSS로 확장된다.
+   base: 브라우저 기본 스타일 리셋 + Tailwind preflight
+   components: @apply로 만든 사용자 클래스 자리
+   utilities: text-senior-base 등 유틸리티 클래스 자리 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────
+   글로벌 base
+   - Pretendard (variable) 우선, OS 무관 동일 렌더링
+   - CDN(jsdelivr) 로딩은 index.html 에서 처리
+   ───────────────────────────────────────── */
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    font-family:
+      "Pretendard Variable", "Pretendard",
+      -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+      "Malgun Gothic", "맑은 고딕", system-ui, sans-serif;
+    /* 한글에 살짝 좁은 자간 — 모던 느낌의 핵심 */
+    letter-spacing: -0.01em;
+    /* 숫자는 폭 고정(Tabular) 되어야 카드의 "총 N건" 등이 흔들리지 않음 */
+    font-feature-settings: "ss06", "tnum";
+    @apply bg-surface-muted text-ink-strong text-senior-base antialiased;
+  }
+
+  /* 큰 헤드라인은 자간을 조금 더 줄여 묵직한 인상 */
+  h1, h2 {
+    letter-spacing: -0.025em;
+  }
+}

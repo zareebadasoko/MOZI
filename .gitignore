@@ -1,0 +1,35 @@
+# ── 비밀 정보 (절대 커밋 금지) ──────────────────────────
+.env
+.env.local
+.env.*.local
+**/application-local.yml
+
+# ── Python (api/) ───────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+api/vectorstores/        # 인덱스 — build_indexes 로 재생성
+api/data/                # 원본 데이터 — 팀에서 별도 공유
+
+# ── Java / Gradle (moji-backend/) ───────────────────────
+moji-backend/build/
+moji-backend/.gradle/
+moji-backend/bin/
+*.class
+
+# ── Node / Vite (moji-frontend/) ────────────────────────
+node_modules/
+moji-frontend/dist/
+moji-frontend/dist-ssr/
+*.local
+
+# ── OS / IDE ────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.iml
+.claude/

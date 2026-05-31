@@ -1,0 +1,6 @@
+# application-mock.yml
+# 시연용 가짜 환경. application.yml + 이 파일이 활성화되면 챗봇 서버 없이도 풀 흐름 동작.
+# 활성 방법: SPRING_PROFILES_ACTIVE=local,mock 또는 application.yml의 spring.profiles.active에 mock 추가
+mozi:
+  chatbot:
+    mock-enabled: true

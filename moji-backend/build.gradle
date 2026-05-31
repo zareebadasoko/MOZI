@@ -1,0 +1,45 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.14'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.mozi'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Phase 3: 인증 스택 도입으로 spring-security-crypto는 spring-boot-starter-security에 transitive 포함되어 명시 불필요.
+	// JWT 발급/검증: jjwt 0.12.6 (Spring Boot 3.x / JDK 21 친화)
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+	// Phase 6: OpenAPI 3.0 명세 자동 생성 + Swagger UI 노출 — 프론트엔드 연계용
+	// 2.8.x부터 Spring Boot 3.5.x (Spring Framework 6.2.x) 호환. Apache License 2.0.
+	// 2.6.0은 Spring Framework 6.1.x용이라 ControllerAdviceBean 시그니처 변경으로 NoSuchMethodError 발생.
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testCompileOnly 'org.projectlombok:lombok'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

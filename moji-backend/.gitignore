@@ -1,0 +1,107 @@
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== IDE =====
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# ===== Java / Gradle =====
+build/
+out/
+target/
+*.jar
+*.war
+*.class
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# ===== Spring Boot 비밀 설정 =====
+src/main/resources/application-local.yml
+src/main/resources/application-prod.yml
+src/main/resources/application-secret.yml
+
+# ===== 환경 변수 =====
+.env
+.env.local
+.env.*.local
+
+# ===== Logs =====
+logs/
+*.log
+spring.log
+
+# ===== Claude Code =====
+.claude/settings.local.json
+.claude/cache/
+.claude/*.session
+
+# ===== 시드 데이터 =====
+seed-data/
+# samples/는 포함 (스키마 파악용)
+
+# ===== DB =====
+*.sql.bak
+*.dump
+
+
+# ==== Documents (기획 및 설계 문서 추적 제외) ====
+
+#깃허브 비공개 Repo로 해당 부분 주석 처리
+#docs/
+#.claude
+#CLAUDE.md
+
+# ==== Spring initializer 생성 .gitignore ==== 
+
+
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/

@@ -1,0 +1,18 @@
+# application-local.yml.example
+# 이 파일을 application-local.yml 로 복사한 후 본인 환경에 맞춰 값을 채우세요.
+# application-local.yml 은 .gitignore 에 등록되어 커밋되지 않습니다.
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mozi_dev?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: YOUR_MYSQL_USERNAME_HERE
+    password: YOUR_MYSQL_PASSWORD_HERE
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mozi:
+  seed:
+    enabled: true   # 로컬에서만 시드 적재 ON (Phase 2부터 사용)
+  jwt:
+    # 32자 이상의 랜덤 문자열 권장. 예: openssl rand -hex 32
+    secret: REPLACE_WITH_AT_LEAST_32_CHAR_RANDOM_STRING
+    expiration-millis: 86400000   # 24h
