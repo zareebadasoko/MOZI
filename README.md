@@ -1,33 +1,134 @@
-# MOZI — 노인 맞춤형 통합 복지 안내 서비스
+# MOZI (모지) 🌱
 
-노인 사용자가 자신의 프로필(나이·지역·소득·가구 형태 등)을 바탕으로 받을 수 있는 복지 혜택을
-**대화형 챗봇**으로 안내받는 풀스택 서비스입니다. 졸업(캡스톤) 프로젝트.
+> **검색이 아니라 대화로 찾는 복지** — 노년층을 위한 AI 대화형 복지 추천 서비스
 
-복지 데이터에 대한 RAG(검색 증강 생성) 파이프라인을 직접 구축해, 사용자 질문에 맞는
-복지 정보를 검색·재정렬한 뒤 LLM이 자연어로 추천합니다.
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat-square&logo=openai&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonwebservices&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
 
----
+<br/>
 
-## 🏗️ 시스템 구성
+<!-- 데모 이미지: docs 폴더에 스크린샷/GIF를 넣고 경로를 맞춰주세요 -->
+<p align="center">
+  <img src="docs/main.png" alt="MOZI 데모" width="90%"/>
+</p>
 
-```
-┌──────────────┐      REST       ┌──────────────────┐    X-API-Key    ┌─────────────────────┐
-│ moji-frontend │ ──────────────▶ │   moji-backend    │ ──────────────▶ │        api          │
-│  React + Vite │                 │  Spring Boot · JWT │                 │  FastAPI · RAG 챗봇  │
-│   (브라우저)   │ ◀────────────── │  MySQL · 복지 DB    │ ◀────────────── │  Hybrid 검색+리랭크  │
-└──────────────┘                 └──────────────────┘                 └─────────────────────┘
-        UI                          인증·복지·북마크 API                  LLM 복지 추천 (RAG)
-```
-
-| 컴포넌트 | 디렉터리 | 스택 | 역할 |
-|---|---|---|---|
-| **프론트엔드** | [`moji-frontend/`](moji-frontend/) | React 19 · Vite · Tailwind · React Router | 사용자 UI, 챗봇 화면, 복지 목록/북마크 |
-| **백엔드** | [`moji-backend/`](moji-backend/) | Spring Boot 3.5 · Java 21 · JPA · Spring Security(JWT) · MySQL | 인증·인가, 복지/북마크/카테고리 API, 챗봇 브릿지 |
-| **챗봇 API** | [`api/`](api/) | FastAPI · LangChain · FAISS · BM25(kiwipiepy) · bge-reranker | 복지 RAG — Hybrid 검색 → 재정렬 → LLM 답변 |
-
-데이터 흐름: 프론트엔드가 백엔드에 요청 → 백엔드가 JWT로 사용자를 인증하고 프로필을 실어 챗봇 API(`api/`)에 위임 → 챗봇 API가 복지 RAG 파이프라인으로 추천 답변과 복지 ID를 반환.
+<br/>
 
 ---
+
+## 📌 프로젝트 소개
+
+고령층의 디지털 기기 보유율은 늘고 있지만, 복지 정보를 **탐색하고 활용하는 데는 여전히 어려움**이 존재합니다.
+
+- **정보의 분산** — 복지 정보가 중앙부처·지자체·민간·서울시 등 여러 기관에 흩어져 있어 통합 확인이 어려움
+- **검색 중심 구조** — 키워드 입력과 복잡한 필터링에 의존해, 조건을 이해하고 입력해야 하는 부담이 큼
+- **사용자 니즈 불일치** — 고령층은 검색보다 *대화 중심*의 정보 탐색을 선호하지만 기존 서비스는 이를 반영하지 못함
+
+**MOZI**는 질문 기반 챗봇과 개인 맞춤 추천을 통해 복지 탐색을 간소화하고, 분산된 정보를 통합하여 누구나 쉽게 이용할 수 있도록 지원합니다.
+
+> 사용자가 자연어로 질문하면 → 개인 조건(연령·지역·상황)에 맞는 복지만 선별해 → 지원 대상·신청 방법까지 한 번에 안내합니다.
+
+**핵심 타깃:** 디지털 기기 사용은 가능하지만 복잡한 서비스 탐색에 어려움을 겪는 **65세 이상 노년층**
+
+<br/>
+
+## 🛠️ 기술 스택
+
+| 구분 | 기술 |
+|------|------|
+| **Frontend** | AWS Amplify |
+| **Backend** | FastAPI, EC2 |
+| **Database** | MySQL (RDS) |
+| **Vector / Search** | FAISS, BM25 (Hybrid Search) |
+| **Embedding** | OpenAI `text-embedding-3-large` (3072-dim) |
+| **LLM** | `gpt-4.1-mini` (메인 답변) · `gpt-4.1-nano` (재작성·요약·분류) |
+| **Reranker** | `bge-v2-m3` |
+| **Data Pipeline** | Python, requests, Pandas |
+| **Infra** | AWS (VPC, ALB, EC2, RDS), Cloudflare |
+| **Ops** | LangSmith (트레이싱) |
+
+<br/>
+
+## 🏗️ 아키텍처
+
+<p align="center">
+  <img src="docs/architecture.png" alt="AWS 아키텍처" width="90%"/>
+</p>
+
+- **VPC (172.31.0.0/16)** 내 다중 AZ(ap-northeast-2a/2c/2b) 구성, Public / Private Subnet 분리
+- 보안 그룹(`mozi-alb-sg`, `mozi-ec2-sg`, `mozi-rds-sg`)으로 계층별 접근 제어
+- Cloudflare를 통한 외부 HTTPS 접속 및 도메인 연결
+
+<br/>
+
+## 🔍 RAG 파이프라인
+
+MOZI의 핵심은 **범용 LLM이 임의로 답하는 것이 아니라, 실제 복지 데이터에 근거해 답변하도록** RAG를 구성하고, 이를 정량 지표로 검증하며 단계적으로 고도화한 과정입니다.
+
+<p align="center">
+  <img src="docs/rag-pipeline.png" alt="AWS 아키텍처" width="90%"/>
+</p>
+
+### 개선 서사 (Baseline → 최종)
+
+| 단계 | 적용 기법 | 성과 |
+|------|-----------|------|
+| **Baseline** | Semantic 검색만 | Hit@3 `0.4624` / Faithfulness `0.75` |
+| **+ Hybrid Search** | BM25 + Semantic (RRF 결합) | Hit@3 `0.6022` |
+| **+ Reranker** | `bge-v2-m3`로 후보 문서 재정렬 | Hit@3 `0.7849` |
+| **+ Prompt Engineering** | 금지 규칙 + Few-shot 예시 | Faithfulness `0.8741` |
+| **+ 예외 처리 / Multi-turn** | Intent 게이트 + Rolling Summary | 불필요한 검색·LLM 호출 및 오응답 감소 |
+
+**최종 성능:** Answer Correctness `0.5335 → 0.5571`, Faithfulness `0.7499 → 0.8741`
+
+<details>
+<summary>📖 단계별 상세 보기</summary>
+
+<br/>
+
+**1. Chunking** — 복지 데이터는 레코드(record) 단위 청킹 채택 (512~1024 토큰 구간에서 가장 안정적, nDCG@k 기준 row 단위가 우수)
+
+**2. Embedding** — `text-embedding-3-large` 선정 (MTEB 64.6% / MIRACL 54.9%, 3072-dim)
+
+**3. Vector Store** — 대규모·성능 중심 검색을 위해 **FAISS** 채택 (GPU 가속 지원, HNSW 인덱싱)
+
+**4. Hybrid Search** — 시맨틱 검색(의미 기반)만으로는 "성북구" 같은 지역·대상 조건이 충분히 반영되지 않아 정답 문서가 낮은 순위로 밀리는 문제 발생 → **BM25 키워드 검색을 추가**해 핵심 조건 매칭을 보완하고 RRF로 결합 (최종: DENSE_K=50, BM25_K=50, TOP_N=50)
+
+**5. Reranker** — Hybrid Search로 검색된 후보 문서를 재정렬. Cohere-v3.5가 최고 성능이었으나 응답 시간이 약 3배 길어, 로컬 모델로 비용 부담이 없고 성능 차이도 크지 않은 **`bge-v2-m3`** 최종 선정
+
+**6. 예외 처리 (Intent Gate)** — 검색 전 입력 의도를 분류(`WELFARE` / `CHITCHAT` / `OUT_OF_SCOPE` / `HARMFUL`)하여, 복지 무관 입력은 검색·리랭킹·LLM 생성을 모두 스킵하고 미리 정의한 안내 응답을 반환 → 불필요한 비용·지연 방지
+
+**7. Multi-turn** — "요약 + 직전 1턴 원문" 하이브리드 메모리 구조. Query Rewriting(지시어 해석), Followup 감지, Rolling Summary(핵심 정보 보존)로 대화 맥락을 유지하면서 컨텍스트 무한 증가를 방지
+
+</details>
+
+<br/>
+
+## 🗂️ 데이터
+
+| 항목 | 내용 |
+|------|------|
+| **수집처** | 복지로, 서울복지포털 |
+| **수집 규모** | 총 **1,473건** (중앙부처 87 / 지자체 1,324 / 민간 35 / 서울시 37) |
+| **수집 기술** | 웹크롤링 (Python, requests) |
+| **정제 구조** | Medallion Architecture (Bronze → Silver → Gold) |
+| **최종 산출물** | MySQL 복지 데이터 + FAISS/BM25 검색 인덱스 |
+
+<br/>
+
+## 🚀 시작하기
+
+### 사전 요구사항
+
+- Python 3.x
+- MySQL
+- OpenAI API Key
+
+
+<br/>
 
 ## 🚀 빠른 시작
 
@@ -80,41 +181,21 @@ npm run dev                  # http://localhost:5173
 
 ---
 
-## 🧠 챗봇 RAG 파이프라인 (핵심)
+## 👥 팀 — 자르바다소코
 
-```
-사용자 메시지
-  → ① 질의 재작성 (멀티턴 지시어 치환, gpt-4.1-nano)
-  → ② Hybrid 검색  Dense(text-embedding-3-large, k=50) + BM25(kiwipiepy, k=50) → RRF
-  → ③ 재정렬        bge-reranker-v2-m3 → top-3
-  → ④ 답변 생성     gpt-4.1-mini
-  → 응답 { reply, conversationId, recommendedWelfareIds }
-```
+| 이름 | 역할 | GitHub |
+|------|------|--------|
+| 박호영 | Back-end & PM | [@handle](https://github.com/) |
+| 노유림 | RAG(Generation+Multi-turn) | [@yesurim](https://github.com/yesurim) |
+| 신지우 | RAG(Hybrid Search) | [@shinjwcode](https://github.com/shinjwcode) |
+| 이소정 | RAG(Hybrid Search) | [@leesojunghub](https://github.com/leesojunghub) |
+| 허예진 | RAG(Generation+Multi-turn) | [@yyejinHI](https://github.com/yyejinHI) |
 
-확정 하이퍼파라미터는 sweep 실험으로 도출. 성능(testset 100문항): **HitRate@3 0.78 / MRR@3 0.72 / nDCG@3 0.66**, 지연 평균 296ms (GPU).
-상세는 [api/README.md](api/README.md) 참고.
 
----
+<br/>
 
-## 📁 저장소 구조
+## 📚 참고자료
 
-```
-moji-project/
-├── README.md           # 본 문서 — 전체 개요
-├── .gitignore          # 통합 gitignore
-├── api/                # FastAPI 복지 RAG 챗봇 서버
-├── moji-backend/       # Spring Boot API 서버
-└── moji-frontend/      # React + Vite 프론트엔드
-```
-
-각 폴더의 `docs/` 에 PRD·API 명세·ERD·사용자 플로우 등 설계 문서가 정리되어 있습니다.
-
-## 프로젝트 정보
-
-본 프로젝트는 노인 사용자를 위한 RAG 기반 맞춤형 복지 안내 서비스를 목표로 개발되었습니다.
-
----
-
-## 📄 라이선스
-
-학부 캡스톤 프로젝트 — 별도 명시가 없는 한 학습·시연 용도.
+- 국가통계포털(KOSIS), 「장래인구추계: 주요 연령계층별 추계인구 / 전국」
+- 송창길, 「2025년 노령 정책 예산 분석」, 보건복지포럼, 한국보건사회연구원, 2025.03
+- 황보연, 「키오스크 앞에 선 노년…디지털 조력자 어디 없나요?」, 한겨레, 2025.04.09
