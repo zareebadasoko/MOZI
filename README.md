@@ -185,7 +185,7 @@ npm run dev                  # http://localhost:5173
 
 | 이름 | 역할 | GitHub |
 |------|------|--------|
-| 박호영 | Back-end & PM | [@handle](https://github.com/) |
+| 박호영 | Back-end & PM | [@young77700](https://github.com/young77700) |
 | 노유림 | RAG(Generation+Multi-turn) | [@yesurim](https://github.com/yesurim) |
 | 신지우 | RAG(Hybrid Search) | [@shinjwcode](https://github.com/shinjwcode) |
 | 이소정 | RAG(Hybrid Search) | [@leesojunghub](https://github.com/leesojunghub) |
